@@ -1,0 +1,26 @@
+version: '3.7'
+services:
+    mysql_db:
+        image: mysql:5.7
+        restart: "on-failure"
+        expose: 
+            - '3306'
+        ports:
+            - '3306:3306'
+        environment: 
+            - MYSQL_DATABASE=${MYSQL_DB_NAME:-OniChanDB}
+            - MYSQL_USER=${MYSQL_USER:-OniChan}
+            - MYSQL_PASSWORD=${MYSQL_PASSWORD:-desu}
+            - MYSQL_RANDOM_ROOT_PASSWORD=yes
+            - MYSQL_ONETIME_PASSWORD=yes
+        networks:
+            adonis_default:
+                aliases:
+                    - db
+        volumes: 
+            - db_data:/var/lib/mysql
+networks:
+    adonis_default:
+        driver: bridge
+volumes:
+    db_data:
